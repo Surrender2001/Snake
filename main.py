@@ -29,6 +29,11 @@ font_end = pygame.font.SysFont('Arial', 66, bold=True)
 # image background
 img = pygame.image.load('1.jpg')
 img = pygame.transform.scale(img, (RES, RES))
+# music
+crash_sound = pygame.mixer.Sound("crash.wav")
+pygame.mixer.music.load('mart.wav')
+pygame.mixer.music.play(0)
+
 while True:
     sc.blit(img, (0, 0))
 
@@ -52,16 +57,18 @@ while True:
     if snake[-1] == apple:
         apple = randrange(0, RES, SIZE), randrange(0, RES, SIZE)
         length += 1
-        fps += 0.2
+        fps += 0.5
         score += 1
 
     # game over
     if x < 0 or x > RES - SIZE or y < 0 or y > RES - SIZE\
             or len(snake) != len(set(snake)):
         while True:
-            render_end = font_end.render('GAME OVER', 1,
+            pygame.mixer.music.stop()
+            # pygame.mixer.Sound.play(crash_sound)
+            render_end = font_end.render('ПРОЕБАЛ, ЧМО', 1,
                                          pygame.Color('orange'))
-            sc.blit(render_end, (RES // 2 - 200, RES // 3))
+            sc.blit(render_end, (RES//6, RES // 3))
             pygame.display.flip()
             # button exit
             for event in pygame.event.get():
